@@ -31,8 +31,6 @@ services:
     container_name: metric-adapter
     environment:
       - ADAPTER_PORT=9456
-      - CLUSTERABILITY_HOST=clusterability
-      - CLUSTERABILITY_PORT=8000
     ports:
       - "9456:9456"
   event-parser:
