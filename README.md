@@ -16,14 +16,38 @@ An iDRAC (Integrated Dell Remote Access Controller) exporter for Prometheus, col
 ## metric-adapter
 Adapts and collects metrics for Prometheus scraping, acting as a custom metrics collector.
 
+### API
+| Endpoint        | Method | Description                                |
+|-----------------|--------|--------------------------------------------|
+| /entry          | POST   | entry of the function or monitoring point  |
+| /exit           | POST   | exit of the function or monitoring point   |
+
+Endpoints require data in payload in JSON format that conforms to this format:
+````
+Entry payload
+{
+    "entryPoint":"<identifying entry point>", 
+    "observedAt":<UTC Timestamp>
+}
+Exit payload
+{
+    "exitPoint":"<identifying exit point>", 
+    "observedAt":<UTC Timestamp>
+}
+
+````
+
 ## event-parser
 Parses event data and prepares it for metric collection or further processing.
 | Environment Variable | Description                                |
 |----------------------|--------------------------------------------|
-| ADAPTER_PORT         |                                            |
-| CLUSTERABILITY_HOST  |                                            |
-| CLUSTERABILITY_PORT  |                                            |
-| PARAM1               |                                            |
+| ADAPTER_PORT         | Port in which the event-parser is running  |
+| TARGET_NAME          | Container name that is monitored           |
+| CLUSTERABILITY_HOST  | Clusterability tool host name              |
+| CLUSTERABILITY_PORT  | Clusterability tool host port              |
+| PROMETHEUS_URL       | URL to the Prometheus telemetry server     |
+| PROMETHEUS_PORT      | Port in which rometheus telemetry server runs |
+| PARAM1               | Monitored metrics                          |
 | PARAM2               |                                            |
 | PARAM3               |                                            |
 | PARAM4               |                                            |
@@ -31,6 +55,7 @@ Parses event data and prepares it for metric collection or further processing.
 | PARAM6               |                                            |
 | PARAM7               |                                            |
 
+Example data is provided in testdata.json file
 
 ## Prometheus
 Collects and stores metrics data for analysis.
@@ -61,21 +86,21 @@ Parameters:
 algorithmType="<algorithm>"
 jsonPathVariable="{<path1>, <path2>,…, <pathN>}"
 ````
+Example:
+````
+algorithmType=silverman&jsonPathVariable={$.cpu_usage,$.memory_usage,$.disk_io,$.net_receive,$.net_transmit}
+````
+Payload data is an array of JSON objects that conform to this data format:
 
-Data format:
 ````
 {
-    "<Index1>": {
-        "<param1>": <float>,
-        "<param2>": <float>,
-        "<param3>": <float>,
-        ...
-        "<paramN>": <float>
-    },
-    "<Index2>": {},
-    "<Index3>": {},
-    ...
-    "<IndexN>": {},
+    "type": <Entity Type, e.g. PerformanceMetrics>,
+    "dateObserved": <UTC Timestamp of the event>,
+    "cpu_usage": <CPU usage (sec/sec)>,
+    "memory_usage": <bytes/sec>,
+    "disk_io": <bytes/sec>,
+    "net_receive": <bytes/sec>,
+    "net_transmit": <bytes/sec>
 }
 ````
 To test the tool you can use following curl -command with provided dummy data JSON:
