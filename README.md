@@ -132,6 +132,8 @@ Generates dummy load to the environment for testing the tool suite
 | TESTER_PORT          | Port on which the tool runs                |
 | TIME_PERIOD          | Configures time period for testing         |
 | TIME_SLICE           | Configures time slice for stress intervals |
+| METRIC_HOST          | Hostname for metric-adapter                |
+| METRIC_PORT          | Port for metric-adapter                    |
 
 ### API
 | Endpoint | Method | Description                                |
