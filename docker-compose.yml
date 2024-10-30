@@ -27,8 +27,8 @@ services:
     volumes:
     - ./idrac/config.yml:/etc/prometheus/idrac.yml
   metric-adapter:
+    image: karikolehmainen/metric-adapter:latest
     container_name: metric-adapter
-    build: metric-adapter  
     environment:
       - ADAPTER_PORT=9456
       - CLUSTERABILITY_HOST=clusterability
@@ -36,8 +36,8 @@ services:
     ports:
       - "9456:9456"
   event-parser:
+    image: karikolehmainen/event-parser:latest
     container_name: event-parser
-    build: event-parser
     environment:
       - ADAPTER_PORT=9457
       - TARGET_NAME=stresstest
@@ -45,13 +45,11 @@ services:
       - CLUSTERABILITY_PORT=8000
       - PROMETHEUS_URL=http://prometheus
       - PROMETHEUS_PORT=9090
-      - PARAM1=cpu00
-      - PARAM2=cpu01
-      - PARAM3=cpu02
-      - PARAM4=cpu03
-      - PARAM5=param5
-      - PARAM6=param6
-      - PARAM7=param7
+      - PARAM1=cpu
+      - PARAM2=mem
+      - PARAM3=disk
+      - PARAM4=net_in
+      - PARAM5=net_out
     ports:
       - "9457:9457"
   init_prometheus:

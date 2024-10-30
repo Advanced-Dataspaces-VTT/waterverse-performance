@@ -13,7 +13,7 @@ A container that monitors resource usage and performance characteristics of othe
 Provides a caching and message-queuing system for other services to use for storing and managing data.
 
 ## idrac
-An iDRAC (Integrated Dell Remote Access Controller) exporter for Prometheus, collecting server hardware metrics. Component uses SNMP (Simple Network MAanagement Protocol)
+An iDRAC (Integrated Dell Remote Access Controller) exporter for Prometheus, collecting server hardware metrics. Component uses SNMP (Simple Network MAanagement Protocol)  
 
 ## metric-adapter
 Adapts and collects metrics for Prometheus scraping, acting as a custom metrics collector.
@@ -38,6 +38,14 @@ Exit payload
 }
 
 ````
+### Usage
+example command-line testing can be done with curl:
+````
+curl -X POST 'http://localhost:9456/entry' -H 'Content-Type: application/json' -d'{"entryPoint":"stresstest::testFunction", "observedAt":1730271392.23}'
+
+curl -X POST 'http://localhost:9456/exit' -H 'Content-Type: application/json' -d'{"exitPoint":"stresstest::testFunction", "observedAt":1730271394.23}'
+````
+
 
 ## event-parser
 Parses event data and prepares it for metric collection or further processing.
