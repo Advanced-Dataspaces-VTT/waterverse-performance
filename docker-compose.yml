@@ -48,6 +48,7 @@ services:
       - PARAM3=disk_io
       - PARAM4=net_receive
       - PARAM5=net_transmit
+      #- PARAM6=system_power
     ports:
       - "9457:9457"
   init_prometheus:
