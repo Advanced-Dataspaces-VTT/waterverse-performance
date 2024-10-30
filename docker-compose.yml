@@ -43,11 +43,11 @@ services:
       - CLUSTERABILITY_PORT=8000
       - PROMETHEUS_URL=http://prometheus
       - PROMETHEUS_PORT=9090
-      - PARAM1=cpu
-      - PARAM2=mem
-      - PARAM3=disk
-      - PARAM4=net_in
-      - PARAM5=net_out
+      - PARAM1=cpu_usage
+      - PARAM2=memory_usage
+      - PARAM3=disk_io
+      - PARAM4=net_receive
+      - PARAM5=net_transmit
     ports:
       - "9457:9457"
   init_prometheus:
