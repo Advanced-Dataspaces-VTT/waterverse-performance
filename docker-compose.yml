@@ -1,0 +1,123 @@
+version: '3.8'
+services:
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: cadvisor
+    ports:
+    - 8090:8080
+    volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:rw
+    - /sys:/sys:ro
+    - /var/lib/docker/:/var/lib/docker:ro
+    depends_on:
+    - redis
+    restart: on-failure
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+    - 6379:6379
+    restart: on-failure
+  idrac:
+    image: mrlhansen/idrac_exporter:latest
+    container_name: idrac
+    ports:
+    - 9348:9348
+    volumes:
+    - ./idrac/config.yml:/etc/prometheus/idrac.yml
+  metric-adapter:
+    container_name: metric-adapter
+    build: metric-adapter  
+    environment:
+      - ADAPTER_PORT=9456
+      - CLUSTERABILITY_HOST=clusterability
+      - CLUSTERABILITY_PORT=8000
+    ports:
+      - "9456:9456"
+  event-parser:
+    container_name: event-parser
+    build: event-parser
+    environment:
+      - ADAPTER_PORT=9457
+      - TARGET_NAME=stresstest
+      - CLUSTERABILITY_HOST=clusterability
+      - CLUSTERABILITY_PORT=8000
+      - PROMETHEUS_URL=http://prometheus
+      - PROMETHEUS_PORT=9090
+      - PARAM1=cpu00
+      - PARAM2=cpu01
+      - PARAM3=cpu02
+      - PARAM4=cpu03
+      - PARAM5=param5
+      - PARAM6=param6
+      - PARAM7=param7
+    ports:
+      - "9457:9457"
+  init_prometheus:
+    image: prom/prometheus:latest
+    user: root
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        chown -R root:root /prometheus
+    volumes:
+      - /opt/docker/prometheus_data:/prometheus
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    user: root
+    volumes:
+      - ./prometheus/:/etc/prometheus/
+      - /opt/docker/prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    ports:
+      - 9090:9090
+    links:
+      - cadvisor:cadvisor
+      - pushgateway:pushgateway
+    depends_on:
+      - init_prometheus
+      - cadvisor
+      - metric-adapter
+      - pushgateway
+    restart: always
+  pushgateway:
+    image: prom/pushgateway
+    container_name: pushgateway
+    restart: unless-stopped
+    expose:
+      - 9091
+    ports:
+      - "9091:9091"
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    user: root
+    restart: always
+    ports:
+      - 3000:3000
+    volumes:
+      - /opt/docker/grafana:/var/lib/grafana
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+  clusterability:
+    image: timolint/clusterability:latest
+    container_name: clusterability
+    ports:
+      - "8000:8000"
+  stresstest:
+    build: 
+      context: stresstest  # This assumes your Dockerfile is in the current directory
+      dockerfile: Dockerfile
+    container_name: stresstest
+    environment:
+      - TESTER_PORT=5000
+      - TIME_PERIOD=30.0
+      - TIME_SLICE=0.04
+    ports:
+      - "5000:5000"

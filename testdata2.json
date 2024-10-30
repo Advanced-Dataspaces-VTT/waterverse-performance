@@ -1,0 +1,11 @@
+[
+    {
+        "type": "PerformanceMetrics", 
+        "dateObserved": 1730271388, 
+        "cpu_usage": 0.0002442454295609751, 
+        "memory_usage": 0.1, 
+        "disk_io": 4.297259564106589, 
+        "net_receive": 0.1, 
+        "net_transmit": 0.1
+    }
+]

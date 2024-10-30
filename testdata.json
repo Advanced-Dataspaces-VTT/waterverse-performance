@@ -1,0 +1,21 @@
+[
+  {
+    "type": "PerformanceMetrics",
+    "dateObserved": 1730218205,
+    "cpu_usage": 1863.454427249,
+    "memory_usage": 1854.98259887,
+    "disk_io": 1850.809056536,
+    "net_receive": 1845.120629174,
+    "net_transmit": 1845.120629174
+  },
+  {
+    "type": "PerformanceMetrics",
+    "dateObserved": 1730218206,
+    "cpu_usage": 1813.454427249,
+    "memory_usage": 1254.98259887,
+    "disk_io": 1890.809056536,
+    "net_receive": 1842.120629174,
+    "net_transmit": 1835.120629174
+  }
+  ]
+  
