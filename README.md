@@ -12,7 +12,7 @@ A container that monitors resource usage and performance characteristics of othe
 ## Redis
 Provides a caching and message-queuing system for other services to use for storing and managing data.
 
-## idrac
+## iDRAC Exporter
 An iDRAC (Integrated Dell Remote Access Controller) exporter for Prometheus, collecting server hardware metrics. Component uses SNMP (Simple Network MAanagement Protocol)  
 
 ## metric-adapter
@@ -29,12 +29,12 @@ Endpoints require data in payload in JSON format that conforms to this format:
 Entry payload
 {
     "entryPoint":"<identifying entry point>", 
-    "observedAt":<UTC Timestamp>
+    "observedAt":<EPOCH Timestamp>
 }
 Exit payload
 {
     "exitPoint":"<identifying exit point>", 
-    "observedAt":<UTC Timestamp>
+    "observedAt":<EPOCH Timestamp>
 }
 
 ````
