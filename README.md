@@ -68,7 +68,11 @@ Parses event data and prepares it for metric collection or further processing.
 Example data is provided in testdata.json file
 
 ## Prometheus
-Collects and stores metrics data for analysis.
+Collects and stores metrics data for analysis. Prometheus has a REST API to query data which can be used for example like this:
+````
+curl -G 'http://localhost:9090/api/v1/query' --data-urlencode 'query=container_fs_io_time_seconds_total{name="stresstest"}'
+````
+
 
 ## Prometheus pushgateway
 Acts as an intermediary for batch jobs to push metrics to Prometheus.
