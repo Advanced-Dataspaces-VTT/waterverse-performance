@@ -116,5 +116,7 @@ services:
       - TESTER_PORT=5000
       - TIME_PERIOD=30.0
       - TIME_SLICE=0.04
+      - METRIC_HOST=metric-adapter
+      - METRIC_PORT=9456
     ports:
       - "5000:5000"
