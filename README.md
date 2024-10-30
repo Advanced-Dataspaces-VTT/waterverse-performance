@@ -124,8 +124,10 @@ Generates dummy load to the environment for testing the tool suite
 |----------|--------|--------------------------------------------|
 | /start   | POST   | Start the load generator                   |
 
-### How to Use
+# Notes
 
+Creating perfomance datasets can be achieved with these tools, but to do off-line analysis additional tools are neede. Prometheus is not timeseries database in traditional sense so making data available offline is necessary. Tools exist for that purpose like
+- PromQueen [https://github.com/Cleafy/promqueen/]
 
 
 
