@@ -4,14 +4,16 @@ Application suite for WDME performance and energy efficiency monitoring. This pr
 This is a summary of components used in the suite
 ## cAdvisor
 A container that monitors resource usage and performance characteristics of other containers.
-|Port	| Description |
+
+|Port	    | Description                    |
+|-----------|--------------------------------|
 | 8090:8080	| Exposes the cAdvisor interface |
 
 ## Redis
 Provides a caching and message-queuing system for other services to use for storing and managing data.
 
 ## idrac
-An iDRAC (Integrated Dell Remote Access Controller) exporter for Prometheus, collecting server hardware metrics.
+An iDRAC (Integrated Dell Remote Access Controller) exporter for Prometheus, collecting server hardware metrics. Component uses SNMP (Simple Network MAanagement Protocol)
 
 ## metric-adapter
 Adapts and collects metrics for Prometheus scraping, acting as a custom metrics collector.
